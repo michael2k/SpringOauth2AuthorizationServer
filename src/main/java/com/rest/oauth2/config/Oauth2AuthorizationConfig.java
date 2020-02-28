@@ -48,7 +48,14 @@ public class Oauth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.jdbc(dataSource).passwordEncoder(passwordEncoder);
+        // clients.jdbc(dataSource).passwordEncoder(passwordEncoder);
+    	clients.inMemory()
+    		.withClient("testClientId")
+    		.secret("testSecret")
+    		.redirectUris("http://localhost:8081/oauth2/callback")
+    		.authorizedGrantTypes("authorization_code")
+    		.scopes("read", "write")
+    		.accessTokenValiditySeconds(30000);
     }
 
     /**
