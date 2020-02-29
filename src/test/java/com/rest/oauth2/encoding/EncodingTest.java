@@ -16,6 +16,7 @@ public class EncodingTest {
 
     @Test
     public void encodeTest() {
+    	/* {bcrypt}$2a$10$Kh.nPv5Zhzanl6dQF4N.le6ibWkSzk/IYyho53LPuESKpkdQ7D9qq */
         System.out.printf("testSecret : %s", passwordEncoder.encode("testSecret"));
         System.out.println();
     }
