@@ -70,11 +70,11 @@ public class Oauth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     /**
      * 토큰 정보를 DB를 통해 관리한다.
      */
-//    @Override
-//    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-//    	endpoints.tokenStore(new JdbcTokenStore(dataSource)).userDetailsService(userDetailService);
-//        endpoints.tokenStore(new JdbcTokenStore(dataSource));
-//    }
+    @Override
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
+    	endpoints.tokenStore(new JdbcTokenStore(dataSource)).userDetailsService(userDetailService);
+        //endpoints.tokenStore(new JdbcTokenStore(dataSource));
+    }
 
     /**
      * 토큰 발급 방식을 JWT 토큰 방식으로 변경한다. 이렇게 하면 토큰 저장하는 DB Table은 필요가 없다.
