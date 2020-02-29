@@ -37,6 +37,14 @@ public class Oauth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     @Value("${security.oauth2.jwt.signkey}")
     private String signKey;
 
+    /* (non-Javadoc)
+     * @see org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter#configure(org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer)
+     * 
+     <pre>/oauth/check_token 활성화
+	  Resource서버에서 token 검증 요청을 Authorization서버로 보낼때 /oauth/check_token을 호출하는데, 
+	   해당 요청을 받기 위해 Oauth2AuthorizationConfig에 아래 설정을 추가합니다
+	</pre>
+     */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
         security.tokenKeyAccess("permitAll()")
@@ -71,22 +79,22 @@ public class Oauth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
     /**
      * 토큰 발급 방식을 JWT 토큰 방식으로 변경한다. 이렇게 하면 토큰 저장하는 DB Table은 필요가 없다.
      */
-    @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-        super.configure(endpoints);
-        endpoints.accessTokenConverter(jwtAccessTokenConverter()).userDetailsService(userDetailService);
-        // endpoints.accessTokenConverter(jwtAccessTokenConverter());
-    }
+//    @Override
+//    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+//        super.configure(endpoints);
+//        endpoints.accessTokenConverter(jwtAccessTokenConverter()).userDetailsService(userDetailService);
+//        // endpoints.accessTokenConverter(jwtAccessTokenConverter());
+//    }
 
     /**
      * jwt converter - signKey 공유 방식
      */
-    @Bean
-    public JwtAccessTokenConverter jwtAccessTokenConverter() {
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey(signKey);
-        return converter;
-    }
+//    @Bean
+//    public JwtAccessTokenConverter jwtAccessTokenConverter() {
+//        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+//        converter.setSigningKey(signKey);
+//        return converter;
+//    }
 
     /**
      * jwt converter - 비대칭 키 sign
