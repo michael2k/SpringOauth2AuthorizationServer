@@ -6,22 +6,17 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private CustomAuthenticationProvider authenticationProvider;
 
 	@Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    	auth.inMemoryAuthentication()
-    		.withUser("user")
-    		//.password("pass")
-    		.password(passwordEncoder.encode("pass"))
-    		.roles("USER");
+    	auth.authenticationProvider(authenticationProvider);
     }
 
     @Override
