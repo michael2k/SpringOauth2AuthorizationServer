@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -13,6 +14,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 import com.rest.oauth2.service.security.CustomUserDetailService;
 
@@ -92,5 +94,23 @@ public class Oauth2AuthorizationConfig extends AuthorizationServerConfigurerAdap
 //		converter.setSigningKey(signKey);
 //		return converter;
 //	}
-	
+
+	/**
+	 * jwt converter 를 등록.
+	 * 비대칭 키 sign
+	 * 
+	 * @return
+	 */
+	@Bean
+	public JwtAccessTokenConverter jwtAccessTokenConverter() {
+		KeyStoreKeyFactory keyStoreKeyFactory = 
+				new KeyStoreKeyFactory(
+						new FileSystemResource("src/main/resources/oauth2jwt.jks")
+							, "oauth2jwtpass".toCharArray()
+					); 
+		JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+		converter.setKeyPair(keyStoreKeyFactory.getKeyPair("oauth2jwt"));
+		return converter;
+	}
+
 }
